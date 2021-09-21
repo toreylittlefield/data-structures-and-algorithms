@@ -14,5 +14,8 @@
     "heaps"
   ],
   "author": "Torey Littlefield",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
 }
