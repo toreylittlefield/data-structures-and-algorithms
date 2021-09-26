@@ -5,8 +5,9 @@ interface GraphShape {
   vertices: Vertex[];
   addVertex: (data: string) => Vertex;
   addEdge: (vertexOne: Vertex, vertexTwo: Vertex) => void;
-  print: () => void;
+  removeEdge: (vertexOne: Vertex, vertexTwo: Vertex) => void;
   removeVertex: (vertexToRemove: Vertex) => void;
+  print: () => void;
 }
 
 class Graph implements GraphShape {
@@ -35,6 +36,15 @@ class Graph implements GraphShape {
     }
   }
 
+  removeEdge(vertexOne: Vertex, vertexTwo: Vertex) {
+    if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
+      vertexOne.removeEdge(vertexTwo);
+      vertexTwo.removeEdge(vertexOne);
+    } else {
+      throw new Error('Both arguments need to be an instance of a Vertex');
+    }
+  }
+
   print() {
     this.vertices.forEach((vertex: Vertex) => vertex.print());
   }
@@ -46,6 +56,7 @@ const newYorkStation = trainNetwork.addVertex('New York');
 
 // trainNetwork.removeVertex(atlantaStation);
 trainNetwork.addEdge(atlantaStation, newYorkStation);
+trainNetwork.removeEdge(atlantaStation, newYorkStation);
 trainNetwork.print();
 
 module.exports = Graph;

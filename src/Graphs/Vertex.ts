@@ -4,6 +4,7 @@ interface VertexShape {
   data: string;
   edges: Edge[];
   addEdge: (vertex: Vertex) => void;
+  removeEdge: (vertex: Vertex) => void;
   print: () => void;
 }
 
@@ -20,6 +21,10 @@ class Vertex implements VertexShape {
     } else {
       throw new Error('Not an instance of Vertex');
     }
+  }
+
+  removeEdge(vertex: Vertex) {
+    this.edges = this.edges.filter((edge: Edge) => edge.end !== vertex);
   }
 
   print() {
