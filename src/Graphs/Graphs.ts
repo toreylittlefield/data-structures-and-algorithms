@@ -4,7 +4,7 @@ import Vertex from './Vertex';
 interface GraphShape {
   vertices: Vertex[];
   addVertex: (data: string) => Vertex;
-  addEdge: (vertexOne: Vertex, vertexTwo: Vertex) => void;
+  addEdge: (vertexOne: Vertex, vertexTwo: Vertex, weight: number) => void;
   removeEdge: (vertexOne: Vertex, vertexTwo: Vertex) => void;
   removeVertex: (vertexToRemove: Vertex) => void;
   print: () => void;
@@ -12,7 +12,7 @@ interface GraphShape {
 
 class Graph implements GraphShape {
   vertices: Vertex[];
-  constructor() {
+  constructor(public isWeighted: boolean = false) {
     this.vertices = [];
   }
 
@@ -27,10 +27,11 @@ class Graph implements GraphShape {
     this.vertices = filteredVertices;
   }
 
-  addEdge(vertexOne: Vertex, vertexTwo: Vertex) {
+  addEdge(vertexOne: Vertex, vertexTwo: Vertex, weight: number | null = null) {
     if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
-      vertexOne.addEdge(vertexTwo);
-      vertexTwo.addEdge(vertexOne);
+      const edgeWeight = this.isWeighted ? weight : null;
+      vertexOne.addEdge(vertexTwo, edgeWeight);
+      vertexTwo.addEdge(vertexOne, edgeWeight);
     } else {
       throw new Error('Both arguments need to be an instance of a Vertex');
     }
@@ -50,13 +51,13 @@ class Graph implements GraphShape {
   }
 }
 
-const trainNetwork = new Graph();
+const trainNetwork = new Graph(true);
 const atlantaStation = trainNetwork.addVertex('Atlanta');
 const newYorkStation = trainNetwork.addVertex('New York');
 
 // trainNetwork.removeVertex(atlantaStation);
-trainNetwork.addEdge(atlantaStation, newYorkStation);
-trainNetwork.removeEdge(atlantaStation, newYorkStation);
+trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
+// trainNetwork.removeEdge(atlantaStation, newYorkStation);
 trainNetwork.print();
 
 module.exports = Graph;
