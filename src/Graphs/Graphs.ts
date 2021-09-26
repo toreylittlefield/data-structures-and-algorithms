@@ -12,7 +12,7 @@ interface GraphShape {
 
 class Graph implements GraphShape {
   vertices: Vertex[];
-  constructor(public isWeighted: boolean = false) {
+  constructor(public isWeighted: boolean = false, public isDirected: boolean = false) {
     this.vertices = [];
   }
 
@@ -31,7 +31,7 @@ class Graph implements GraphShape {
     if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
       const edgeWeight = this.isWeighted ? weight : null;
       vertexOne.addEdge(vertexTwo, edgeWeight);
-      vertexTwo.addEdge(vertexOne, edgeWeight);
+      if (!this.isDirected) vertexTwo.addEdge(vertexOne, edgeWeight);
     } else {
       throw new Error('Both arguments need to be an instance of a Vertex');
     }
@@ -40,7 +40,7 @@ class Graph implements GraphShape {
   removeEdge(vertexOne: Vertex, vertexTwo: Vertex) {
     if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
       vertexOne.removeEdge(vertexTwo);
-      vertexTwo.removeEdge(vertexOne);
+      if (!this.isDirected) vertexTwo.removeEdge(vertexOne);
     } else {
       throw new Error('Both arguments need to be an instance of a Vertex');
     }
@@ -51,13 +51,13 @@ class Graph implements GraphShape {
   }
 }
 
-const trainNetwork = new Graph(true);
+const trainNetwork = new Graph(false, true);
 const atlantaStation = trainNetwork.addVertex('Atlanta');
 const newYorkStation = trainNetwork.addVertex('New York');
 
 // trainNetwork.removeVertex(atlantaStation);
 trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
-// trainNetwork.removeEdge(atlantaStation, newYorkStation);
+trainNetwork.removeEdge(atlantaStation, newYorkStation);
 trainNetwork.print();
 
 module.exports = Graph;
