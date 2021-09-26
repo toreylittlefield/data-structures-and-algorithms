@@ -3,7 +3,7 @@ interface End {
 }
 
 class Edge {
-  constructor(public start: string, public end: End, public weight: number) {}
+  constructor(public start: string, public end: End, public weight: number | null) {}
 }
 
 export = Edge;
