@@ -3,7 +3,7 @@ import Edge from './Edge';
 interface VertexShape {
   data: string;
   edges: Edge[];
-  addEdge: (vertex: Vertex) => void;
+  addEdge: (vertex: Vertex, weight: null | number) => void;
   removeEdge: (vertex: Vertex) => void;
   print: () => void;
 }
@@ -14,9 +14,9 @@ class Vertex implements VertexShape {
     this.edges = [];
   }
 
-  addEdge(vertex: Vertex) {
+  addEdge(vertex: Vertex, weight: null | number = null) {
     if (vertex instanceof Vertex === true) {
-      const edge = new Edge(this.data, vertex, null);
+      const edge = new Edge(this.data, vertex, weight);
       this.edges.push(edge);
     } else {
       throw new Error('Not an instance of Vertex');
