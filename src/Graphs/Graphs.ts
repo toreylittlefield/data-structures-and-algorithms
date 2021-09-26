@@ -51,13 +51,13 @@ class Graph implements GraphShape {
   }
 }
 
-const trainNetwork = new Graph(false, true);
-const atlantaStation = trainNetwork.addVertex('Atlanta');
-const newYorkStation = trainNetwork.addVertex('New York');
+// const trainNetwork = new Graph(false, true);
+// const atlantaStation = trainNetwork.addVertex('Atlanta');
+// const newYorkStation = trainNetwork.addVertex('New York');
 
-// trainNetwork.removeVertex(atlantaStation);
-trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
-trainNetwork.removeEdge(atlantaStation, newYorkStation);
-trainNetwork.print();
+// // trainNetwork.removeVertex(atlantaStation);
+// trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
+// trainNetwork.removeEdge(atlantaStation, newYorkStation);
+// trainNetwork.print();
 
-module.exports = Graph;
+export = Graph;
