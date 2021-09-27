@@ -16,7 +16,7 @@ const binarySearch: BinarySearch = (arr, target) => {
     if (target > checking) {
       left = indexToCheck + 1;
     } else {
-      right = indexToCheck;
+      right = indexToCheck - 1;
     }
   }
   return null;
