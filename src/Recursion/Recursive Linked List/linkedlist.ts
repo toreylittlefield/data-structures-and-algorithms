@@ -99,15 +99,25 @@ class LinkedList implements LinkedListShape {
     return null;
   }
 
-  //   findNodeRecursively(data: string, currentNode = this.head) {}
+  findNodeRecursively(data: string, currentNode: NodeData | null = this.head): null | NodeData {
+    if (currentNode === null) {
+      return null;
+    } else if (currentNode.data === data) {
+      return currentNode;
+    } else {
+      currentNode = currentNode.getNextNode();
+      return this.findNodeRecursively(data, currentNode);
+    }
+  }
 }
 
 const myList = new LinkedList();
 
 // myList.addToHead('Node 1');
 // myList.addToHead('Node 2');
-// myList.addToHead('Node 3');
-// myList.addToHead('Node 4');
 myList.addToTail('Node 1');
 myList.addToHead('Node 2');
-console.log(myList);
+myList.addToHead('Node 3');
+myList.addToHead('Node 4');
+const findNode = myList.findNodeRecursively('Node 1');
+console.log(findNode);
