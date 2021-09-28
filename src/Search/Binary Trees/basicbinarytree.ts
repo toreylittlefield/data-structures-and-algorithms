@@ -36,24 +36,15 @@ class BinaryTree implements BinaryTreeShape {
   }
 
   getNodeByValue(value: number): BinaryTree | null {
-    if (this.value === value) return this;
-    // search left
-    if (this.left) {
-      if (value === this.left.value) {
-        return this.left;
-      } else if (value < this.left.value || value < this.value) {
-        return this.left.getNodeByValue(value);
-      }
+    if (this.value === value) {
+      return this;
+    } else if (this.left && value < this.value) {
+      return this.left.getNodeByValue(value);
+    } else if (this.right) {
+      return this.right.getNodeByValue(value);
+    } else {
+      return null;
     }
-    // search right
-    if (this.right) {
-      if (this.right.value === value) {
-        return this.right;
-      } else {
-        return this.right.getNodeByValue(value);
-      }
-    }
-    return null;
   }
 }
 
