@@ -5,6 +5,7 @@ interface BinaryTreeShape {
   right: BinaryTree | null;
   insert: (value: number) => void;
   getNodeByValue: (value: number) => BinaryTree | null;
+  depthFirstTraversal: () => void;
 }
 
 class BinaryTree implements BinaryTreeShape {
@@ -46,6 +47,16 @@ class BinaryTree implements BinaryTreeShape {
       return null;
     }
   }
+
+  depthFirstTraversal(): void {
+    console.log(`Depth=${this.depth}, Value=${this.value}`);
+    if (this.left) {
+      this.left.depthFirstTraversal();
+    }
+    if (this.right) {
+      this.right.depthFirstTraversal();
+    }
+  }
 }
 
 const bt = new BinaryTree(100);
@@ -59,5 +70,6 @@ bt.insert(150);
 bt.insert(130);
 bt.insert(250);
 // console.log(bt);
-const node = bt.getNodeByValue(10);
-console.log(node);
+// const node = bt.getNodeByValue(10);
+// console.log(node);
+bt.depthFirstTraversal();
