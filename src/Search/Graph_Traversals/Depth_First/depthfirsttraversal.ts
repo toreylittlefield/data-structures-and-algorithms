@@ -1,10 +1,11 @@
 import { Vertex } from '../../../Graphs/Vertex';
 import testGraph from './simpleGraph';
 
-type DepthFirstTraversal = (start: Vertex, visitedVertices?: Vertex[]) => void;
+type DepthFirstTraversal = (start: Vertex, callback?: (...arg: any) => void, visitedVertices?: Vertex[]) => void;
 
-const depthFirstTraversal: DepthFirstTraversal = (start, visitedVertices = [start]) => {
-  console.log(start.data);
+const depthFirstTraversal: DepthFirstTraversal = (start, callback = () => {}, visitedVertices = [start]) => {
+  //   console.log(start.data);
+  callback(start);
   //   if (start.edges.length) {
   start.edges.forEach((edge) => {
     // const neighbor = start.edges[0].end;
@@ -12,10 +13,12 @@ const depthFirstTraversal: DepthFirstTraversal = (start, visitedVertices = [star
 
     if (!visitedVertices.includes(neighbor)) {
       visitedVertices.push(neighbor);
-      depthFirstTraversal(neighbor, visitedVertices);
+      depthFirstTraversal(neighbor, callback, visitedVertices);
     }
   });
   //   }
 };
 
-depthFirstTraversal(testGraph.vertices[0]);
+depthFirstTraversal(testGraph.vertices[0], (vertex) => {
+  console.log(vertex.data);
+});
