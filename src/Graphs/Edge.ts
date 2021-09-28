@@ -1,5 +1,6 @@
 interface End {
   data: string;
+  edges: Edge[];
 }
 
 class Edge {

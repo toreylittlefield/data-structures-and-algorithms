@@ -1,6 +1,6 @@
-import Edge from './Edge';
+// import Edge from './Edge';
 
-interface VertexShape {
+export interface VertexShape {
   data: string;
   edges: Edge[];
   addEdge: (vertex: Vertex, weight: null | number) => void;
@@ -8,7 +8,7 @@ interface VertexShape {
   print: () => void;
 }
 
-class Vertex implements VertexShape {
+export class Vertex implements VertexShape {
   edges: Edge[];
   constructor(public data: string) {
     this.edges = [];
@@ -37,9 +37,18 @@ class Vertex implements VertexShape {
   }
 }
 
+interface End extends VertexShape {
+  data: string;
+  edges: Edge[];
+}
+
+class Edge extends Vertex {
+  constructor(public start: string, public end: End, public weight: number | null) {
+    super(end.data);
+  }
+}
+
 // const v1 = new Vertex('first');
 // const v2 = new Vertex('second');
 // v1.addEdge(v2);
 // v1.print();
-
-export = Vertex;
