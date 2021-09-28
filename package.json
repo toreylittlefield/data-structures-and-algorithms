@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist/main.js",
-    "watch-and-run": "ts-node-dev --respawn -- src/main.ts"
+    "watch-and-run": "ts-node-dev --respawn -- src/Search/Graph_Traversals/Depth_First/depthfirsttraversal.ts"
   },
   "keywords": [
     "data",
