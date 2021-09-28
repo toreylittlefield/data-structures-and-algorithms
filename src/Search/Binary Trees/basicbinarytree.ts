@@ -3,6 +3,8 @@ interface BinaryTreeShape {
   depth: number;
   left: BinaryTree | null;
   right: BinaryTree | null;
+  insert: (value: number) => void;
+  getNodeByValue: (value: number) => BinaryTree | null;
 }
 
 class BinaryTree implements BinaryTreeShape {
@@ -32,6 +34,27 @@ class BinaryTree implements BinaryTreeShape {
       }
     }
   }
+
+  getNodeByValue(value: number): BinaryTree | null {
+    if (this.value === value) return this;
+    // search left
+    if (this.left) {
+      if (value === this.left.value) {
+        return this.left;
+      } else if (value < this.left.value || value < this.value) {
+        return this.left.getNodeByValue(value);
+      }
+    }
+    // search right
+    if (this.right) {
+      if (this.right.value === value) {
+        return this.right;
+      } else {
+        return this.right.getNodeByValue(value);
+      }
+    }
+    return null;
+  }
 }
 
 const bt = new BinaryTree(100);
@@ -39,4 +62,11 @@ bt.insert(50);
 bt.insert(125);
 bt.insert(75);
 bt.insert(25);
-console.log(bt);
+bt.insert(10);
+bt.insert(60);
+bt.insert(150);
+bt.insert(130);
+bt.insert(250);
+// console.log(bt);
+const node = bt.getNodeByValue(10);
+console.log(node);
