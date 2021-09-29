@@ -44,8 +44,13 @@ const findPrimesWhileLoop: FindPrimes = (booleanArrayNums) => {
 
 // using booleans solution
 const findPrimesBoolean = (limit: number) => {
-  const booleanArray: boolean[] = Array(limit + 1).fill(true);
-  console.log(limit);
+  const booleanArray: boolean[] = [];
+  for (let index = 0; index < limit; index++) {
+    booleanArray.push(true);
+  }
+  for (let index = 4; index < limit; index += 2) {
+    booleanArray.push(false);
+  }
   booleanArray[0] = false;
   booleanArray[1] = false;
   for (let prime = 3; prime < Math.sqrt(limit); prime += 2) {
@@ -66,4 +71,4 @@ const findPrimesBoolean = (limit: number) => {
   return primes;
 };
 
-console.log(findPrimesBoolean(1000000).length);
+console.log(findPrimesBoolean(50000000).length);
