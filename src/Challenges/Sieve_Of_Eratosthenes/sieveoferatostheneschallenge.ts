@@ -48,21 +48,22 @@ const findPrimesBoolean = (limit: number) => {
   console.log(limit);
   booleanArray[0] = false;
   booleanArray[1] = false;
-  for (let prime = 2; prime < Math.sqrt(limit); prime++) {
+  for (let prime = 3; prime < Math.sqrt(limit); prime += 2) {
     const element = booleanArray[prime];
     if (element === true) {
-      for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime) {
+      for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime * 2) {
         booleanArray[primeMultiple] = false;
       }
     }
   }
-  const primes: number[] = booleanArray.reduce((acc, cur, idx) => {
-    if (cur === true) {
-      acc.push(idx);
+  const primes: number[] = [2];
+  for (let num = 3; num < booleanArray.length; num += 2) {
+    const val = booleanArray[num];
+    if (val === true) {
+      primes.push(num);
     }
-    return acc;
-  }, []);
+  }
   return primes;
 };
 
-console.log(findPrimesBoolean(10));
+console.log(findPrimesBoolean(1000000).length);
