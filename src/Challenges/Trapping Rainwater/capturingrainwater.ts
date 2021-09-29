@@ -13,8 +13,8 @@
  * To solve the problem, we need to write a function that will take in an array of integers and calculate the total water captured. 
  * Our function would return 6 for the histogram above
  */
-// const testArray: number[] = [4, 2, 1, 3, 0, 1, 2];
-const testArray: number[] = [0, 0, 45, 2, 3, 45, 5, 1];
+const testArray: number[] = [4, 2, 1, 3, 0, 1, 2];
+// const testArray: number[] = [45, 45, 45, 46, 48, 49, 50, 55];
 
 type FindHeight = (array: number[]) => number;
 
@@ -90,3 +90,33 @@ const findHeights: FindHeight = (heights) => {
   return totalHeights;
 };
 console.log(findHeights(testArray));
+
+const efficientSolution: FindHeight = (heights) => {
+  console.time('startefficient');
+
+  let totalWater = 0;
+  let leftPointer = 0;
+  let rightPointer = heights.length - 1;
+  let leftBoundValue = 0;
+  let rightBoundValue = 0;
+
+  while (leftPointer < rightPointer) {
+    const leftPointerValue = heights[leftPointer];
+    const rightPointerValue = heights[rightPointer];
+    if (leftPointerValue <= rightPointerValue) {
+      leftBoundValue = Math.max(leftPointerValue, leftBoundValue);
+      totalWater += leftBoundValue - leftPointerValue;
+      leftPointer++;
+    } else {
+      rightBoundValue = Math.max(rightPointerValue, rightBoundValue);
+      totalWater += rightBoundValue - rightPointerValue;
+      rightPointer--;
+    }
+    console.log(totalWater, rightPointer);
+  }
+  console.timeEnd('startefficient');
+
+  return totalWater;
+};
+
+console.log(efficientSolution(testArray));
