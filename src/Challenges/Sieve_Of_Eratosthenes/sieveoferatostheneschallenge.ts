@@ -4,13 +4,13 @@
 // prime number is a positive number with no divisors but 1 and itself. 2, 3, 11, and 443 are all prime numbers.
 // sieve assumes {2,...,n} are prime, and then successively marking them as NOT prime.
 
-const sieveArray: number[] = [...Array(999).keys()].map((key) => key + 2);
+const sievebooleanArray: number[] = [...Array(999).keys()].map((key) => key + 2);
 
-type FindPrimes = (arrayNums: number[]) => number[];
+type FindPrimes = (booleanArrayNums: number[]) => number[];
 
-type FindMultiples = (arrayNums: number[], primes?: number[]) => number[];
+type FindMultiples = (booleanArrayNums: number[], primes?: number[]) => number[];
 // n log n solution
-const findPrimes: FindPrimes = (arrayNums) => {
+const findPrimes: FindPrimes = (booleanArrayNums) => {
   const findMultiples: FindMultiples = (arr, primes = []) => {
     if (arr.length === 0) return primes;
     const numToEval = arr[0];
@@ -21,23 +21,49 @@ const findPrimes: FindPrimes = (arrayNums) => {
     });
     return findMultiples(arr, primes);
   };
-  return findMultiples(arrayNums);
+  return findMultiples(booleanArrayNums);
 };
-// const res = findPrimes(sieveArray);
+// const res = findPrimes(sievebooleanArray);
 // console.log(res.length);
 
-const findPrimesWhileLoop: FindPrimes = (arrayNums) => {
+const findPrimesWhileLoop: FindPrimes = (booleanArrayNums) => {
   let primes: number[] = [];
   while (true) {
-    const currentNum = arrayNums[0];
+    const currentNum = booleanArrayNums[0];
     if (currentNum === undefined) break;
     primes.push(currentNum);
-    arrayNums = arrayNums.filter((num) => {
+    booleanArrayNums = booleanArrayNums.filter((num) => {
       return num % currentNum !== 0;
     });
   }
 
   return primes;
 };
-const res = findPrimesWhileLoop(sieveArray);
-console.log(res.length);
+// const res = findPrimesWhileLoop(sievebooleanArray);
+// console.log(res.length);
+
+// using booleans solution
+const findPrimesBoolean = (limit: number) => {
+  const booleanArray: boolean[] = Array(limit + 1).fill(true);
+  console.log(limit);
+  booleanArray[0] = false;
+  booleanArray[1] = false;
+  for (let i = 2; i <= limit; i++) {
+    const element = booleanArray[i];
+    if (element === true) {
+      for (let j = i * 2; j <= limit; j = j + i) {
+        booleanArray[j] = false;
+      }
+    }
+  }
+
+  const primeNumsArray: number[] = booleanArray.reduce((acc: number[], cur: boolean, idx: number) => {
+    if (cur === true) {
+      acc.push(idx);
+    }
+    return acc;
+  }, []);
+  return primeNumsArray;
+};
+
+console.log(findPrimesBoolean(999).length);
