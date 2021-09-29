@@ -48,16 +48,20 @@ const findPrimesBoolean = (limit: number) => {
   console.log(limit);
   booleanArray[0] = false;
   booleanArray[1] = false;
-  const primes: number[] = [];
-  for (let prime = 2; prime <= limit; prime++) {
+  for (let prime = 2; prime < Math.sqrt(limit); prime++) {
     const element = booleanArray[prime];
     if (element === true) {
-      primes.push(prime);
       for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime) {
         booleanArray[primeMultiple] = false;
       }
     }
   }
+  const primes: number[] = booleanArray.reduce((acc, cur, idx) => {
+    if (cur === true) {
+      acc.push(idx);
+    }
+    return acc;
+  }, []);
   return primes;
 };
 
