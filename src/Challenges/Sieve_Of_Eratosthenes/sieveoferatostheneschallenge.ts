@@ -54,7 +54,6 @@ const findPrimesBoolean = (limit: number) => {
     if (element === true) {
       // mark all numbers that are multiples of this prime as false;
       for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime * 2) {
-        console.log(primeMultiple, prime * 2, prime);
         booleanArray[primeMultiple] = false;
       }
     }
@@ -70,4 +69,4 @@ const findPrimesBoolean = (limit: number) => {
   return primes;
 };
 
-console.log(findPrimesBoolean(100));
+console.log(findPrimesBoolean(10000000).length);
