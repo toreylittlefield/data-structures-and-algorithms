@@ -49,16 +49,16 @@ const findPrimesBoolean = (limit: number) => {
   booleanArray[0] = false;
   booleanArray[1] = false;
   const primes: number[] = [];
-  for (let i = 2; i <= limit; i++) {
-    const element = booleanArray[i];
+  for (let prime = 2; prime <= limit; prime++) {
+    const element = booleanArray[prime];
     if (element === true) {
-      primes.push(i);
-      for (let j = i * 2; j <= limit; j = j + i) {
-        booleanArray[j] = false;
+      primes.push(prime);
+      for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime) {
+        booleanArray[primeMultiple] = false;
       }
     }
   }
   return primes;
 };
 
-console.log(findPrimesBoolean(100).length);
+console.log(findPrimesBoolean(10));
