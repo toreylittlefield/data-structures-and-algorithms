@@ -44,24 +44,23 @@ const findPrimesWhileLoop: FindPrimes = (booleanArrayNums) => {
 
 // using booleans solution
 const findPrimesBoolean = (limit: number) => {
-  const booleanArray: boolean[] = [];
-  for (let index = 0; index < limit; index++) {
+  const booleanArray: boolean[] = [false, false];
+  for (let index = 3; index < limit; index++) {
     booleanArray.push(true);
   }
-  for (let index = 4; index < limit; index += 2) {
-    booleanArray.push(false);
-  }
-  booleanArray[0] = false;
-  booleanArray[1] = false;
+  // even nums cannot be prime skip iterating over them and start at 3
   for (let prime = 3; prime < Math.sqrt(limit); prime += 2) {
     const element = booleanArray[prime];
     if (element === true) {
+      // mark all numbers that are multiples of this prime as false;
       for (let primeMultiple = prime * prime; primeMultiple <= limit; primeMultiple += prime * 2) {
+        console.log(primeMultiple, prime * 2, prime);
         booleanArray[primeMultiple] = false;
       }
     }
   }
   const primes: number[] = [2];
+  // even nums cannot be prime skip iterating over them and start at 3
   for (let num = 3; num < booleanArray.length; num += 2) {
     const val = booleanArray[num];
     if (val === true) {
@@ -71,4 +70,4 @@ const findPrimesBoolean = (limit: number) => {
   return primes;
 };
 
-console.log(findPrimesBoolean(50000000).length);
+console.log(findPrimesBoolean(100));
