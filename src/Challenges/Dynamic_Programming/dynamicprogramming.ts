@@ -13,5 +13,4 @@ const memofibonacci = () => {
 
 // Test your code with calls here:
 const fibo = memofibonacci();
-console.log(fibo(20));
-console.log(fibo(200));
+fibo(20);
