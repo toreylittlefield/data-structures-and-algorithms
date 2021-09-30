@@ -24,7 +24,7 @@ type Distance = {
 };
 
 type Previous = {
-  [key: string]: number | null;
+  [key: string]: typeof testGraph.vertices[0] | null;
 };
 
 const dijkstras = (graph: Graph, startingVertex: typeof graph.vertices[0]) => {
@@ -35,6 +35,17 @@ const dijkstras = (graph: Graph, startingVertex: typeof graph.vertices[0]) => {
     previous[vertex.data] = null;
   });
   distances[startingVertex.data] = 0;
+
+  const vertex = startingVertex;
+  vertex.edges.forEach((edge) => {
+    let alternate = distances[vertex.data];
+    if (edge.weight !== null) alternate += edge.weight;
+    const neighborValue = edge.end.data;
+    if (alternate < distances[neighborValue]) {
+      distances[neighborValue] = alternate;
+      previous[neighborValue] = vertex;
+    }
+  });
   return { distances, previous };
 };
 
