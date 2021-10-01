@@ -20,6 +20,8 @@ testGraph.addEdge(e, f, 10);
 testGraph.addEdge(b, g, 9);
 testGraph.addEdge(e, g, -50);
 
+export { testGraph };
+
 type Add = { vertex: Vertex; priority: number };
 
 class PriorityQueue {
@@ -117,7 +119,7 @@ type Previous = {
   [key: string]: Vertex | null;
 };
 
-const dijkstras = (graph: Graph, startingVertex: Vertex) => {
+export const dijkstras = (graph: Graph, startingVertex: Vertex) => {
   const distances: Distance = {};
   const previous: Previous = {};
   const queue = new PriorityQueue();
@@ -148,5 +150,5 @@ const dijkstras = (graph: Graph, startingVertex: Vertex) => {
   return { distances, previous };
 };
 
-const results = dijkstras(testGraph, testGraph.vertices[0]);
-console.log(results);
+// // const results = dijkstras(testGraph, testGraph.vertices[0]);
+// console.log(results);
