@@ -26,7 +26,7 @@ class PriorityQueue {
   heap: Add[];
   size: number;
   constructor() {
-    this.heap = [];
+    this.heap = [{ vertex: new Vertex('null'), priority: -1 }];
     this.size = 0;
   }
 
@@ -129,16 +129,22 @@ const dijkstras = (graph: Graph, startingVertex: Vertex) => {
   });
   distances[startingVertex.data] = 0;
 
-  const vertex = startingVertex;
-  vertex.edges.forEach((edge) => {
-    let alternate = distances[vertex.data];
-    if (edge.weight !== null) alternate += edge.weight;
-    const neighborValue = edge.end.data;
-    if (alternate < distances[neighborValue]) {
-      distances[neighborValue] = alternate;
-      previous[neighborValue] = vertex;
-    }
-  });
+  while (queue.isEmpty() === false) {
+    let queueMin = queue.popMin();
+    if (queueMin === null) return { distances, previous };
+    const { vertex } = queueMin;
+
+    vertex.edges.forEach((edge) => {
+      let alternate = distances[vertex.data];
+      if (edge.weight !== null) alternate += edge.weight;
+      const neighborValue = edge.end.data;
+      if (alternate < distances[neighborValue]) {
+        distances[neighborValue] = alternate;
+        previous[neighborValue] = vertex;
+        queue.add({ vertex: edge.end, priority: distances[neighborValue] });
+      }
+    });
+  }
   return { distances, previous };
 };
 
