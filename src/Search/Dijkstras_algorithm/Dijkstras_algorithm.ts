@@ -1,4 +1,4 @@
-import { Vertex } from 'src/Graphs/Vertex';
+import { Vertex } from '../../Graphs/Vertex';
 import Graph from '../../Graphs/Graphs';
 
 const testGraph = new Graph(true, true);
@@ -23,21 +23,19 @@ testGraph.addEdge(e, g, -50);
 type Add = { vertex: Vertex; priority: number };
 
 class PriorityQueue {
-  heap: (Add | null)[];
+  heap: Add[];
   size: number;
   constructor() {
-    this.heap = [null];
+    this.heap = [];
     this.size = 0;
   }
 
   add({ vertex, priority }: Add) {
     if (vertex instanceof Vertex) {
       this.heap.push({ vertex, priority });
-    } else {
-      this.heap.push(null);
+      this.size++;
+      this.bubbleUp();
     }
-    this.size++;
-    this.bubbleUp();
   }
 
   isEmpty() {
@@ -90,15 +88,15 @@ class PriorityQueue {
     }
   }
 
-  swap(a, b) {
+  swap(a: number, b: number) {
     [this.heap[a], this.heap[b]] = [this.heap[b], this.heap[a]];
   }
 
-  exists(index) {
+  exists(index: number) {
     return index <= this.size;
   }
 
-  canSwap(current, leftChild, rightChild) {
+  canSwap(current: number, leftChild: number, rightChild: number) {
     // Check that one of the possible swap conditions exists
     return (
       (this.exists(leftChild) && this.heap[current].priority > this.heap[leftChild].priority) ||
@@ -107,9 +105,9 @@ class PriorityQueue {
   }
 }
 
-const getParent = (current) => Math.floor(current / 2);
-const getLeft = (current) => current * 2;
-const getRight = (current) => current * 2 + 1;
+const getParent = (current: number) => Math.floor(current / 2);
+const getLeft = (current: number) => current * 2;
+const getRight = (current: number) => current * 2 + 1;
 
 type Distance = {
   [key: string]: number;
