@@ -7,6 +7,7 @@ interface GraphShape {
   addEdge: (vertexOne: Vertex, vertexTwo: Vertex, weight: number) => void;
   removeEdge: (vertexOne: Vertex, vertexTwo: Vertex) => void;
   removeVertex: (vertexToRemove: Vertex) => void;
+  getVertexByValue: (value: string) => Vertex | undefined;
   print: () => void;
 }
 
