@@ -1,3 +1,4 @@
+import { Vertex } from 'src/Graphs/Vertex';
 import Graph from '../../Graphs/Graphs';
 
 const testGraph = new Graph(true, true);
@@ -19,17 +20,111 @@ testGraph.addEdge(e, f, 10);
 testGraph.addEdge(b, g, 9);
 testGraph.addEdge(e, g, -50);
 
+type Add = { vertex: Vertex; priority: number };
+
+class PriorityQueue {
+  heap: (Add | null)[];
+  size: number;
+  constructor() {
+    this.heap = [null];
+    this.size = 0;
+  }
+
+  add({ vertex, priority }: Add) {
+    if (vertex instanceof Vertex) {
+      this.heap.push({ vertex, priority });
+    } else {
+      this.heap.push(null);
+    }
+    this.size++;
+    this.bubbleUp();
+  }
+
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  popMin() {
+    if (this.size === 0) {
+      return null;
+    }
+    const min = this.heap[1];
+    this.heap[1] = this.heap[this.size];
+    this.size--;
+    this.heap.pop();
+    this.heapify();
+    return min;
+  }
+
+  bubbleUp() {
+    let current = this.size;
+    while (current > 1 && this.heap[getParent(current)].priority > this.heap[current].priority) {
+      this.swap(current, getParent(current));
+      current = getParent(current);
+    }
+  }
+
+  heapify() {
+    let current = 1;
+    let leftChild = getLeft(current);
+    let rightChild = getRight(current);
+    // Check that there is something to swap (only need to check the left if both exist)
+    while (this.canSwap(current, leftChild, rightChild)) {
+      // Only compare left & right if they both exist
+      if (this.exists(leftChild) && this.exists(rightChild)) {
+        // Make sure to swap with the smaller of the two children
+        if (this.heap[leftChild].priority < this.heap[rightChild].priority) {
+          this.swap(current, leftChild);
+          current = leftChild;
+        } else {
+          this.swap(current, rightChild);
+          current = rightChild;
+        }
+      } else {
+        // If only one child exist, always swap with the left
+        this.swap(current, leftChild);
+        current = leftChild;
+      }
+      leftChild = getLeft(current);
+      rightChild = getRight(current);
+    }
+  }
+
+  swap(a, b) {
+    [this.heap[a], this.heap[b]] = [this.heap[b], this.heap[a]];
+  }
+
+  exists(index) {
+    return index <= this.size;
+  }
+
+  canSwap(current, leftChild, rightChild) {
+    // Check that one of the possible swap conditions exists
+    return (
+      (this.exists(leftChild) && this.heap[current].priority > this.heap[leftChild].priority) ||
+      (this.exists(rightChild) && this.heap[current].priority > this.heap[rightChild].priority)
+    );
+  }
+}
+
+const getParent = (current) => Math.floor(current / 2);
+const getLeft = (current) => current * 2;
+const getRight = (current) => current * 2 + 1;
+
 type Distance = {
   [key: string]: number;
 };
 
 type Previous = {
-  [key: string]: typeof testGraph.vertices[0] | null;
+  [key: string]: Vertex | null;
 };
 
-const dijkstras = (graph: Graph, startingVertex: typeof graph.vertices[0]) => {
+const dijkstras = (graph: Graph, startingVertex: Vertex) => {
   const distances: Distance = {};
   const previous: Previous = {};
+  const queue = new PriorityQueue();
+  queue.add({ vertex: startingVertex, priority: 0 });
+  console.log(queue);
   graph.vertices.forEach((vertex) => {
     distances[vertex.data] = Infinity;
     previous[vertex.data] = null;
