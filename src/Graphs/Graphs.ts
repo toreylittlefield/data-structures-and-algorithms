@@ -46,6 +46,10 @@ class Graph implements GraphShape {
     }
   }
 
+  getVertexByValue(value: string) {
+    return this.vertices.find((vertex) => vertex.data === value);
+  }
+
   print() {
     this.vertices.forEach((vertex: Vertex) => vertex.print());
   }
